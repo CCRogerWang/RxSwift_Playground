@@ -3,5 +3,6 @@
     <pages>
         <page name='Template'/>
         <page name='UITextField'/>
+        <page name='withLatestFrom'/>
     </pages>
 </playground>

@@ -37,13 +37,12 @@ class ViewController : UIViewController {
             print("目前的字：\($0)")
         })
         let inputDriver = inputStream.asDriver(onErrorJustReturn: "")
-        
+    
         inputDriver.drive(outputField.rx.text)
             .disposed(by: disposeBag)
         
         inputDriver.map {
-            let text = "字數：\($0)"
-            print(text)
+            let text = "字數：\($0.count)"
             return text
         }
             .drive(label.rx.text)
@@ -53,7 +52,14 @@ class ViewController : UIViewController {
             .drive(button.rx.isEnabled)
             .disposed(by: disposeBag)
         
-//        inputField.text = "tt"
+        let didTap = button.rx.tap
+            .asDriver()
+        
+        didTap.withLatestFrom(inputDriver)
+            .drive(onNext: {
+                print("send: \($0)")
+            }).disposed(by: disposeBag)
+            
     }
 }
 
